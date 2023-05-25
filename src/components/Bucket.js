@@ -1,44 +1,40 @@
 import React, { useState } from 'react';
-import BucketList from './BucketList';
+import BucketItem from './BucketItem';
 
-export default function Bucket() {
-    const [bucketList, setBucketList] = useState([]); // represents array of bucket-list items
-    const [bucketListItem, setBucketListItem] = useState();
+export default function Bucket({list, updateList}) {
+    const completeBucketItem = (id) => {
+        let updatedBucketList = list.map((item) => {
+            if(item.id === id) {
+                item.isComplete = !item.isComplete;
+            }
 
-    // set bucket list item name on input change
-    const handleInputChange = (e) => {
-        const { target } = e;
+            return item;
+        })
+        updateList(updatedBucketList);
+    };
 
-        setBucketListItem(target.value);
-    }
+    const deleteBucketItem = (id) => {
+        const updatedBucketList = [...list].filter((item) => item.id !== id)  
+        updateList(updatedBucketList);
+    };
 
-    const handleFormSubmit = () => {
-        // setBucketList(bucketList.push(
-        // <BucketList
-        //     name={bucketListItem}
-        // />));
-        setBucketList(oldArray => [...oldArray, <BucketList name={bucketListItem}/>]);
-        setBucketListItem('');
+    const updateBucketItem = (id, newValue) => {
+        updateList((prev) => prev.map((item) => (item.id === id ? newValue : item)))
     };
 
     return (
         <div>
-            <div>
-                {bucketList}
-            </div>
-            <form>
-                <input
-                    value={bucketListItem}
-                    name="bucketListItem"
-                    onChange={handleInputChange}
-                />
-                <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={handleFormSubmit}
-                >
-                </button>
-            </form>
+            Bucket
+            {list.map((item) => {
+                return <BucketItem key={item.id} 
+                id={item.id}
+                text={item.text} 
+                importance={item.importance} 
+                complete={completeBucketItem} 
+                isComplete={item.isComplete}
+                onDelete={deleteBucketItem}
+                onUpdate={updateBucketItem}/>;
+            })}
         </div>
-    );
+    )
 }

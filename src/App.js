@@ -1,6 +1,6 @@
 import React from "react";
-import Bucket from "./components/Bucket";
+import BucketList from "./components/BucketList";
 
-const App = () => <Bucket />;
+const App = () => <BucketList />;
 
 export default App;
