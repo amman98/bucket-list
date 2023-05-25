@@ -1,11 +1,6 @@
 import React from "react";
+import Bucket from "./components/Bucket";
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
-}
+const App = () => <Bucket />;
 
 export default App;
